@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"sync"
 
 	d "Datadb.go"
 	helpers "Helpers.go"
@@ -13,8 +14,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func ProductServer(_mux *mux.Router) {
+func ProductServer(_mux *mux.Router, _wg *sync.WaitGroup) {
 	dataRouter := _mux.PathPrefix("/product").Subrouter()
+	dataRouter.Use(IsDatabaseConnected)
 	dataRouter.Use(IsSetTokenMiddleware)
 	dataRouter.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
 		if http.MethodGet == r.Method {
@@ -129,6 +131,7 @@ func ProductServer(_mux *mux.Router) {
 			fmt.Fprintf(w, "%+v", helpers.Response(false, 405, "Bu URL için kullanılan HTTP yöntemi desteklenmiyor", nil))
 		}
 	})
+	wg.Done()
 }
 
 //middleware ==> Cookie kontrolu için

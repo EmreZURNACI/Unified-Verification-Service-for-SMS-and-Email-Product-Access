@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"sync"
 	"time"
 
 	a "Auth.go"
@@ -13,8 +14,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func AuthServer(_mux *mux.Router) {
+func AuthServer(_mux *mux.Router, _wg *sync.WaitGroup) {
 	authRouter := _mux.PathPrefix("/auth").Subrouter()
+	authRouter.Use(IsDatabaseConnected)
 	authRouter.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
 		if http.MethodPost == r.Method {
 			if r.Body != http.NoBody && r.Body != nil {
@@ -152,4 +154,5 @@ func AuthServer(_mux *mux.Router) {
 		}
 		fmt.Fprintln(w, "Cookie'ler temizlendi.")
 	})
+	_wg.Done()
 }
