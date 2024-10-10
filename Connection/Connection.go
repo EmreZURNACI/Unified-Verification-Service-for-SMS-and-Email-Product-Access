@@ -1,4 +1,4 @@
-package connection
+package Connection
 
 import (
 	"database/sql"
@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	m "Models.go"
+	m "ProductService/Models"
+
 	_ "github.com/lib/pq"
 )
 
@@ -30,5 +31,3 @@ func Connection() *sql.DB {
 	}
 	return con
 }
-
-//build dene
