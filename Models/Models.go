@@ -1,4 +1,4 @@
-package models
+package Models
 
 type DatabaseModel struct {
 	Host     string `json:"Host"`
@@ -49,28 +49,9 @@ type Product struct {
 	Model          string `json:"model"`
 	IsletimSistemi string `json:"isletimsistemi"`
 }
-
-// type DataModel struct {
-// 	Veri []Product `json:"data"`
-// }
-
 type StandartResponseModel struct {
 	Status     bool      `json:"status"`
 	StatusCode int       `json:"status_code"`
 	Message    string    `json:"message"`
 	Data       []Product `json:"data"`
 }
-
-//gerekli fieldları doldurt mesaj gonder
-/*
-
-{
-		"status": "success",
-		"status_code": 200,
-		"message": "İşlem başarılı",
-		"data": {
-		  "veri": "değer"
-		}
-	  }
-
-*/
