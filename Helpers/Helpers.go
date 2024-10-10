@@ -1,10 +1,11 @@
-package helpers
+package Helpers
 
 import (
 	"encoding/json"
 	"fmt"
 
-	m "Models.go"
+	c "ProductService/Connection"
+	m "ProductService/Models"
 )
 
 var dbMessage m.DatabaseMessage
@@ -32,4 +33,11 @@ func ExtractStatuAndMessage(result string) (bool, string) {
 	} else {
 		return true, dbMessage.Message
 	}
+}
+func RunQuery(query string) bool {
+	_, err := c.Connection().Exec(query)
+	if err != nil {
+		return false
+	}
+	return true
 }
