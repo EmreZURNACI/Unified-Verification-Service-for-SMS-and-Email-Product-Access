@@ -1,4 +1,4 @@
-package server
+package Server
 
 import (
 	"encoding/json"
@@ -8,15 +8,17 @@ import (
 	"sync"
 	"time"
 
-	a "Auth.go"
-	h "Helpers.go"
-	m "Models.go"
+	a "ProductService/Auth"
+	h "ProductService/Helpers"
+	m "ProductService/Models"
+
 	"github.com/gorilla/mux"
 )
 
 func AuthServer(_mux *mux.Router, _wg *sync.WaitGroup) {
 	authRouter := _mux.PathPrefix("/auth").Subrouter()
 	authRouter.Use(IsDatabaseConnected)
+	authRouter.Use(IsFunctionsCreated)
 	authRouter.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
 		if http.MethodPost == r.Method {
 			if r.Body != http.NoBody && r.Body != nil {
@@ -152,7 +154,7 @@ func AuthServer(_mux *mux.Router, _wg *sync.WaitGroup) {
 			}
 			http.SetCookie(w, c)
 		}
-		fmt.Fprintln(w, "Cookie'ler temizlendi.")
+		fmt.Fprintf(w, "%+v", h.Response(true, 200, "Cookieler temizlendi.", nil))
 	})
 	_wg.Done()
 }
