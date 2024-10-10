@@ -1,4 +1,4 @@
-package auth
+package Auth
 
 import (
 	"fmt"
@@ -10,8 +10,9 @@ import (
 
 	"encoding/base64"
 
-	c "Connection.go"
-	h "Helpers.go"
+	c "ProductService/Connection"
+	h "ProductService/Helpers"
+
 	"github.com/twilio/twilio-go"
 	verify "github.com/twilio/twilio-go/rest/verify/v2"
 )
