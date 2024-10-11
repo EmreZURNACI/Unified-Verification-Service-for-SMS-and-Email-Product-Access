@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	c "ProductService/Connection"
-	"ProductService/Functions"
 	h "ProductService/Helpers"
 )
 
@@ -31,8 +30,7 @@ func IsDatabaseConnected(next http.Handler) http.Handler {
 }
 func IsFunctionsCreated(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		statu := Functions.StartFunctions()
-		if !statu {
+		if !IsFunctionCreated {
 			fmt.Fprintf(w, "%+v", h.Response(false, 400, "Database functions could not be created.", nil))
 		} else {
 			next.ServeHTTP(w, r)
