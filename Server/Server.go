@@ -1,7 +1,7 @@
 package Server
 
 import (
-	"fmt"
+	f "ProductService/Functions"
 	"net/http"
 	"sync"
 
@@ -10,6 +10,16 @@ import (
 )
 
 var wg sync.WaitGroup
+var IsFunctionCreated bool = false
+
+func init() {
+	statu := f.StartFunctions()
+	if statu == false {
+		IsFunctionCreated = false
+	} else {
+		IsFunctionCreated = true
+	}
+}
 
 func Server() {
 	_mux := mux.NewRouter()
